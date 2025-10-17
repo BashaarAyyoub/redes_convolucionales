@@ -1,3 +1,6 @@
 tensorflow>=2.12
 numpy
 matplotlib
+flask
+pillow
+

@@ -1,23 +1,17 @@
-# Ignorar entorno virtual
+# venv y caches
 .venv/
-venv/
-ENV/
-
-# Ignorar cachés de Python
 __pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Ignorar checkpoints de Jupyter
 .ipynb_checkpoints/
 
-# Ignorar datos grandes
+# datos/modelos grandes
 *.npz
-*.tar.gz
-*.zip
 *.h5
 *.keras
-
-# Ignorar outputs temporales
+*.zip
+*.tar.gz
 *.log
+
+# uploads de usuario
+static/uploads/*
+!static/uploads/.gitkeep
+

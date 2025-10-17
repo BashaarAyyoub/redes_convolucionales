@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <title>CIFAR-10 CNN · Clasificador</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" />
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>CIFAR-10 · Clasificador con CNN</h1>
+      <p class="sub">Sube una imagen. La red la redimensiona a 32×32, normaliza a [0,1] y predice la clase.</p>
+    </div>
+  </header>
+
+  <main class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="alerts">
+          {% for m in messages %}<div class="alert">{{ m }}</div>{% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <section class="grid">
+      <div class="card">
+        <h2>Sube una imagen</h2>
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+          <div id="drop" class="dropzone">
+            <input id="fileInput" type="file" name="image" accept="image/*" required />
+            <p>Arrastra y suelta aquí o <span class="link">haz clic para seleccionar</span></p>
+          </div>
+          <div id="preview" class="preview hidden">
+            <img id="previewImg" alt="Vista previa" />
+          </div>
+          <button type="submit" class="btn">Clasificar</button>
+        </form>
+      </div>
+
+      <div class="card">
+        <h2>Resultado</h2>
+
+        {% if image_url %}
+          <div class="result">
+            <div class="result-img">
+              <img src="{{ image_url }}" alt="Imagen subida" />
+            </div>
+            <div class="result-info">
+              <p class="pred">Predicción: <strong>{{ top_label }}</strong></p>
+              <p class="conf">Confianza: <strong>{{ '{:.2%}'.format(top_prob) }}</strong></p>
+
+              <h3>Top-3</h3>
+              <ul class="list">
+                {% for lbl, p in top3 %}
+                  <li class="row">
+                    <span>{{ lbl }}</span>
+                    <span class="pct">{{ '{:.2%}'.format(p) }}</span>
+                    <div class="barwrap" aria-hidden="true">
+                      <div class="bar" style="width: {{ (p*100)|round(2) }}%"></div>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+
+              <details class="details">
+                <summary>Ver Top-10</summary>
+                <ul class="list compact">
+                  {% for lbl, p in all_probs %}
+                    <li class="row">
+                      <span>{{ lbl }}</span>
+                      <span class="pct">{{ '{:.2%}'.format(p) }}</span>
+                      <div class="barwrap" aria-hidden="true">
+                        <div class="bar" style="width: {{ (p*100)|round(2) }}%"></div>
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </details>
+            </div>
+          </div>
+        {% else %}
+          <p class="muted">Aún no hay predicción. Sube una imagen para empezar.</p>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small>Modelo: CNN (Conv2D+MaxPool×2 → Flatten → Dense(64) → Softmax) entrenada en CIFAR-10.</small>
+    </div>
+  </footer>
+
+  <script>
+    // Interacciones: drag&drop y vista previa
+    const drop = document.getElementById('drop');
+    const input = document.getElementById('fileInput');
+    const preview = document.getElementById('preview');
+    const previewImg = document.getElementById('previewImg');
+
+    drop.addEventListener('click', () => input.click());
+    ['dragenter','dragover'].forEach(e =>
+      drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.add('hover'); })
+    );
+    ['dragleave','drop'].forEach(e =>
+      drop.addEventListener(e, ev => { ev.preventDefault(); drop.classList.remove('hover'); })
+    );
+    drop.addEventListener('drop', ev => {
+      const f = ev.dataTransfer.files[0];
+      if (f) { input.files = ev.dataTransfer.files; showPreview(f); }
+    });
+    input.addEventListener('change', () => { if (input.files[0]) showPreview(input.files[0]); });
+
+    function showPreview(file) {
+      const reader = new FileReader();
+      reader.onload = e => {
+        previewImg.src = e.target.result;
+        preview.classList.remove('hidden');
+      };
+      reader.readAsDataURL(file);
+    }
+  </script>
+</body>
+</html>
