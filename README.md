@@ -1,4 +1,5 @@
 # redes_convolucionales
+https://github.com/BashaarAyyoub/redes_convolucionales.git
 # CNN CIFAR-10 (Fase 1)
 El código se ejecuta en archivo app.py == main.py
 
