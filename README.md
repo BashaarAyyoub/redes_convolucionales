@@ -1,5 +1,6 @@
 # redes_convolucionales
 # CNN CIFAR-10 (Fase 1)
+El código se ejecuta en archivo app.py == main.py
 
 Primer commit: **carga, exploración y preprocesado** del dataset CIFAR-10 para una CNN en TensorFlow/Keras.
 
