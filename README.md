@@ -2,6 +2,7 @@
 https://github.com/BashaarAyyoub/redes_convolucionales.git
 # CNN CIFAR-10 (Fase 1)
 El código se ejecuta en archivo app.py == main.py
+Si al ejecutar no reconoce el src, crea un entorno virtual.venv
 
 Primer commit: **carga, exploración y preprocesado** del dataset CIFAR-10 para una CNN en TensorFlow/Keras.
 
