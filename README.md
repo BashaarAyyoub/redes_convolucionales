@@ -1,58 +1,177 @@
-# redes_convolucionales
-https://github.com/BashaarAyyoub/redes_convolucionales.git
-# CNN CIFAR-10 (Fase 1)
-El código se ejecuta en archivo app.py == main.py
-Si al ejecutar no reconoce el src, crea un entorno virtual.venv
+# 🧠 Image Classification with Convolutional Neural Networks (CNN)
 
-Primer commit: **carga, exploración y preprocesado** del dataset CIFAR-10 para una CNN en TensorFlow/Keras.
+This repository contains the project **redes_convolucionales**, which implements an **image classification system using Convolutional Neural Networks (CNNs)**.
 
-## Qué hace
-- Carga CIFAR-10
-- Visualiza muestras de las 10 clases (sin aplanar, RGB)
-- Normaliza a `[0,1]`
-- Convierte etiquetas a **one-hot**
-- Guarda un `.npz` con los datos preprocesados en `data/processed/`
+The project uses the **CIFAR-10 dataset** and is implemented using **TensorFlow/Keras**. It also includes a **Flask-based web interface** that allows users to run the model and test predictions with images.
 
-## Cómo ejecutar
-```bash
+Repository:
+https://github.com/BashaarAyyoub/redes_convolucionales
+
+---
+
+# 📌 Project Overview
+
+This project builds a **deep learning model capable of classifying images into different categories** using a Convolutional Neural Network.
+
+The current phase of the project focuses on:
+
+* Loading the **CIFAR-10 dataset**
+* Exploring the dataset
+* Visualizing sample images from the 10 classes
+* Preprocessing the data
+* Preparing the dataset for CNN training
+
+---
+
+# 📦 Dataset
+
+The project uses the **CIFAR-10 dataset**, which contains:
+
+* **60,000 images**
+* Image size of **32x32 pixels**
+* **10 different classes**
+
+The classes included in the dataset are:
+
+* Airplane
+* Automobile
+* Bird
+* Cat
+* Deer
+* Dog
+* Frog
+* Horse
+* Ship
+* Truck
+
+---
+
+# ⚙️ What the Code Does
+
+The current pipeline performs the following steps:
+
+1. Loads the CIFAR-10 dataset
+2. Visualizes sample images from the 10 classes (RGB images without flattening)
+3. Normalizes image pixel values to the **[0,1] range**
+4. Converts labels to **one-hot encoding**
+5. Saves the processed dataset in a `.npz` file inside:
+
+```
+data/processed/
+```
+
+This allows the preprocessed data to be reused without repeating the entire preprocessing pipeline.
+
+---
+
+# 📂 Project Structure
+
+```
+redes_convolucionales
+│
+├── src/                     # Main project code
+│   ├── app.py               # Main execution script
+│   ├── infer.py             # Model inference
+│   ├── data_prep.py         # Data preprocessing
+│
+├── templates/               # Flask HTML templates
+├── static/                  # Static files
+├── reports/figures          # Generated visualizations
+│
+├── requirements.txt         # Project dependencies
+├── README.md
+└── Redes_Convolucionales.ipynb   # Experiment notebook
+```
+
+---
+
+# 🚀 How to Run the Project
+
+It is recommended to run the project **from the root directory of the repository**.
+
+### 1️⃣ Activate the virtual environment
+
+```
 .\.venv\Scripts\activate
+```
+
+If the environment does not exist, create it with:
+
+```
+python -m venv .venv
+```
+
+---
+
+### 2️⃣ Install dependencies
+
+```
 pip install -r requirements.txt
+```
+
+---
+
+### 3️⃣ Run the application
+
+```
 python -m src.app
+```
 
-El motivo de que te pida python -m src.app y no simplemente python src/app.py es por cómo funciona Python con los paquetes y módulos. Te explico claro y rápido:
+---
 
-🔹 Caso 1: python src/app.py
+# ❗ Why `python -m src.app` is used
 
-Aquí Python cree que src es solo una carpeta normal, no un paquete.
+It may seem more natural to run:
 
-Entonces cuando dentro de app.py haces:
+```
+python src/app.py
+```
 
-from src.infer import load_model
+However, doing this can produce the error:
 
+```
+ModuleNotFoundError: No module named 'src'
+```
 
-Python no sabe dónde está src → te lanza ModuleNotFoundError: No module named 'src'.
+This happens because Python does not treat `src` as a package when executed this way.
 
-🔹 Caso 2: python -m src.app
+Running:
 
-Con la opción -m, le dices a Python:
+```
+python -m src.app
+```
 
-"Ejecuta el módulo app que está dentro del paquete src".
+tells Python:
 
-Así, src se trata como un paquete Python, y ya entiende perfectamente imports como:
+> Execute the module `app` inside the `src` package.
 
+This ensures that imports work correctly, such as:
+
+```
 from src.infer import load_model
 from src.data_prep import preprocess
+```
 
-📌 En resumen:
+---
 
-Si ejecutas desde dentro de la carpeta src/, puedes hacer:
+# 🧪 Project Status
 
-python app.py
+The project is currently in an **early development stage**, focusing on:
 
+* Dataset preparation
+* Preprocessing pipeline
+* Base project structure
 
-(pero ahí ya no funcionan igual las rutas a templates/ y static/).
+Future improvements may include:
 
-Lo más limpio es siempre ejecutar desde la raíz del proyecto:
+* Training and optimizing the CNN model
+* Model evaluation
+* Improved web interface
+* Application deployment
 
-python -m src.app
+---
+
+# 👨‍💻 Author
+
+Developed by **Bashaar Ayyoub**
 
